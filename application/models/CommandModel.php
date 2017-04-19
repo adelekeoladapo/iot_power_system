@@ -8,7 +8,11 @@
 
 class CommandModel extends CI_Model {
     
-    private $table_command = 'command', $table_test = 'test';
+    private $table_command = 'command', $table_test = 'test', $handle, $myfile = "application/config/last-command.txt";
+    
+    function __construct() {
+        parent::__construct();
+    }
     
     function insertCommand($data){
         if($this->getCommandByDeviceID($data->device_id)){
@@ -31,6 +35,13 @@ class CommandModel extends CI_Model {
     function getCommand($id){
         $this->db->select('*');
         $this->db->where('command_id', $id);
+        $query = $this->db->get($this->table_command);
+        return ($query->num_rows()) ? $query->row() : null;
+    }
+    
+    function getNextCommand($row_command_id){
+        $this->db->select('*');
+        $this->db->where('command_id >', $row_command_id);
         $query = $this->db->get($this->table_command);
         return ($query->num_rows()) ? $query->row() : null;
     }
@@ -84,6 +95,32 @@ class CommandModel extends CI_Model {
     function updateTest($device_id, $data){
         $this->db->where('device_id', $device_id);
         return $this->db->update($this->table_test, $data);
+    }
+    
+    function deleteTest($device_id){
+        $this->db->where('device_id', $device_id);
+        $this->db->delete($this->table_test);
+    }
+    
+    
+    
+    
+    /////////////////// FILE //////////////////
+    
+    
+    
+    function setLastDeviceID($device_id){
+        $this->handle = fopen($this->myfile, "w") or die("Unable to open file!");
+        fwrite($this->handle, $device_id);
+    }
+    
+    function getLastDeviceID(){
+        $this->handle = fopen($this->myfile, "r") or die("Unable to open file!");
+        return fgets($this->handle);
+    }
+    
+    function __destruct() {
+        
     }
     
 }

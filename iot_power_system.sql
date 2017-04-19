@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 20, 2016 at 01:17 PM
+-- Generation Time: Apr 19, 2017 at 07:16 PM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.5.38
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `jedupaco_iot_power_system`
+-- Database: `iot_power_system`
 --
 
 -- --------------------------------------------------------
@@ -31,6 +31,7 @@ CREATE TABLE `command` (
   `device_id` varchar(50) NOT NULL,
   `mode` varchar(50) NOT NULL,
   `source` varchar(200) NOT NULL,
+  `critical` int(11) DEFAULT '0',
   `date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -38,8 +39,25 @@ CREATE TABLE `command` (
 -- Dumping data for table `command`
 --
 
-INSERT INTO `command` (`command_id`, `device_id`, `mode`, `source`, `date`) VALUES
-(1, '0000', 'Auto', 'Mains', '2016-12-18 09:49:15');
+INSERT INTO `command` (`command_id`, `device_id`, `mode`, `source`, `critical`, `date`) VALUES
+(1, '0002', 'Auto', 'Generator', 0, '2017-04-13 16:37:03'),
+(2, '0001', 'Auto', 'Generator', 0, '2017-04-13 16:37:43');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `log`
+--
+
+CREATE TABLE `log` (
+  `log_id` int(11) NOT NULL,
+  `device_id` int(11) NOT NULL,
+  `error` varchar(50) NOT NULL,
+  `source` varchar(20) NOT NULL,
+  `error_time` datetime NOT NULL,
+  `fixed` int(11) NOT NULL,
+  `time_fixed` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -64,7 +82,8 @@ CREATE TABLE `test` (
 --
 
 INSERT INTO `test` (`test_id`, `device_id`, `name`, `mode`, `source`, `status`, `contact1`, `contact2`, `date`) VALUES
-(1, '0000', 'Test Device', 'Auto', 'Generator', 'Online', 'On', 'Off', '2016-12-19 22:00:52');
+(1, '0001', 'Apartment A', 'Auto', 'Generator', 'Online', 'On', 'Off', '2017-04-13 23:57:09'),
+(2, '0002', 'Apartment B', 'Auto', 'Generator', 'Online', 'On', 'Off', '2017-04-14 00:23:13');
 
 --
 -- Indexes for dumped tables
@@ -75,6 +94,12 @@ INSERT INTO `test` (`test_id`, `device_id`, `name`, `mode`, `source`, `status`, 
 --
 ALTER TABLE `command`
   ADD PRIMARY KEY (`command_id`);
+
+--
+-- Indexes for table `log`
+--
+ALTER TABLE `log`
+  ADD PRIMARY KEY (`log_id`);
 
 --
 -- Indexes for table `test`
@@ -90,12 +115,17 @@ ALTER TABLE `test`
 -- AUTO_INCREMENT for table `command`
 --
 ALTER TABLE `command`
-  MODIFY `command_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `command_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `log`
+--
+ALTER TABLE `log`
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `test`
 --
 ALTER TABLE `test`
-  MODIFY `test_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `test_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

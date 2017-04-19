@@ -55,15 +55,12 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 /************* Test APIs *****************/
-$route['api/start'] = 'Test/start';
 $route['api/add-command'] = 'Test/addCommand';
 $route['api/get-commands'] = 'Test/getCommands';
 
-$route['api/update-test'] = 'Test/updateTest';
+$route['api/add-test'] = 'Test/addTest';
 $route['api/get-tests'] = 'Test/getTests';
 
 $route['api/add-device'] = 'Test/addDevice';
 $route['api/update-device'] = 'Test/addDevice';
 $route['api/delete-device'] = 'Test/deleteDevice';
-
-

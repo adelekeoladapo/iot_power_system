@@ -2,7 +2,6 @@
 
 
 /**
- * Description of QuotaModel
  *
  * @author Adeleke Oladapo
  */
@@ -21,7 +20,7 @@ class TestModel extends CI_Model {
         ($filter_value) ? $this->db->where($filter_field, $filter_value) : '';
         ($page) ? $this->db->limit($page_size, $page) : $this->db->limit($page_size);
         $query = $this->db->get($this->table_name);
-        return ($query->num_rows()) ? $query->result() : [];
+        return ($query->num_rows()) ? $query->result() : false;
     }
     
     function updateTest($device_id, $data){
@@ -34,6 +33,11 @@ class TestModel extends CI_Model {
         $this->db->where('device_id', $device_id);
         $query = $this->db->get($this->table_name);
         return ($query->num_rows()) ? $query->row() : null;
+    }
+    
+    function deleteTest($device_id){
+        $this->db->where('device_id', $device_id);
+        $this->db->delete($this->table_name);
     }
     
 }
