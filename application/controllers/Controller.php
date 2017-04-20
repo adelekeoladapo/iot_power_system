@@ -1,17 +1,15 @@
 <?php
 
-class Test extends CI_Controller {
+class Controller extends CI_Controller {
     
-    var $model, $firebase, $push, $log_model;
+    var $model, $firebase, $push;
     
     function __construct() {
         parent::__construct();
-        $this->load->model('CommandModel');
-        $this->load->model('LogModel');
+        $this->load->model('Model');
         include 'Firebase/firebase.php';
         include 'Firebase/push.php';
-        $this->model = new CommandModel();
-        $this->log_model = new LogModel();
+        $this->model = new Model();
         $this->firebase = new Firebase();
         $this->push = new Push();
     }
@@ -86,12 +84,14 @@ class Test extends CI_Controller {
         $data->date = $this->penguin->getTime();
         $this->model->updateTest($data->device_id, $data);
         
-        $this->model->updateCommand($device_id, array('device_id'=> 0));
+        $this->model->updateCommand($data->device_id, array('device_id'=> 0));
         
 //        $command = $this->model->getCommandByDeviceID($data->device_id);
 //        echo ($command) ? json_encode($command) : null;
         
         $this->do_next();
+        
+        $this->model->logTestError($data);
         
         /** push notification **/
         $this->push->setTitle("Sample Title");
@@ -124,6 +124,21 @@ class Test extends CI_Controller {
     function deleteDevice(){
         $device_id = $this->input->get('device-id');
         echo $this->model->deleteTest($device_id);
+    }
+    
+    
+    /**
+     * Logs
+     */
+    
+    function getLogs(){
+        $sort_field = $this->input->get('sort-field');
+        $sort_order_mode = $this->input->get('sort-order-mode');
+        $filter_field = $this->input->get('filter-field');
+        $filter_value = $this->input->get('filter-value');
+        $page = $this->input->get('page');
+        $page_size = $this->input->get('page-size');
+        echo json_encode($this->model->getLogs($sort_field, $sort_order_mode, $filter_field, $filter_value, $page, $page_size));
     }
     
     

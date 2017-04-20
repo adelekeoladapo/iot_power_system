@@ -49,21 +49,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'test';
-$route['login'] = 'user/login';
+$route['default_controller'] = 'Controller';
+$route['api'] = 'Controller';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 /************* Test APIs *****************/
-$route['api/start'] = 'Test/start';
-$route['api/add-command'] = 'Test/addCommand';
-$route['api/get-commands'] = 'Test/getCommands';
+$route['api/start'] = 'Controller/start';
+$route['api/add-command'] = 'Controller/addCommand';
+$route['api/get-commands'] = 'Controller/getCommands';
 
-$route['api/update-test'] = 'Test/updateTest';
-$route['api/get-tests'] = 'Test/getTests';
+$route['api/update-test'] = 'Controller/updateTest';
+$route['api/get-tests'] = 'Controller/getTests';
 
-$route['api/add-device'] = 'Test/addDevice';
-$route['api/update-device'] = 'Test/addDevice';
-$route['api/delete-device'] = 'Test/deleteDevice';
+$route['api/add-device'] = 'Controller/addDevice';
+$route['api/update-device'] = 'Controller/addDevice';
+$route['api/delete-device'] = 'Controller/deleteDevice';
+
+$route['api/get-logs'] = 'Controller/getLogs';
 
 
